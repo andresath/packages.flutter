@@ -1,3 +1,12 @@
+## 3.0.0 
+
+* Resolved [issue#147](https://github.com/rbcprolabs/packages.flutter/issues/147), null-safety migration
+
+## 2.4.0 
+
+* Fixed [pull#131](https://github.com/rbcprolabs/packages.flutter/pull/131), rendering of landscape-orientation PDF files on iOS
+* Fixed [pull#137](https://github.com/rbcprolabs/packages.flutter/pull/137), crash caused by invalid PDF format
+
 ## 2.3.2
 
 * Fixed [issue#74](https://github.com/rbcprolabs/packages.flutter/issues/74), min ios version now 2 instead 11

@@ -3,12 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:native_pdf_renderer/native_pdf_renderer.dart';
-// ignore: uri_does_not_exist
-import 'has_support_stub.dart'
-    // ignore: uri_does_not_exist
-    if (dart.library.html) 'has_support_browser.dart'
-    // ignore: uri_does_not_exist
-    if (dart.library.io) 'has_support_io.dart';
 
 void main() => runApp(ExampleApp());
 
@@ -16,12 +10,12 @@ class ExampleApp extends StatelessWidget {
   Future<PdfDocument> _getDocument() async {
     if (await hasSupport()) {
       return PdfDocument.openAsset('assets/sample.pdf');
-    } else {
-      throw Exception(
-        'PDF Rendering does not '
-        'support on the system of this version',
-      );
     }
+
+    throw Exception(
+      'PDF Rendering does not '
+      'support on the system of this version',
+    );
   }
 
   @override
@@ -94,20 +88,20 @@ class ExampleApp extends StatelessWidget {
 
 class ImageLoader extends StatelessWidget {
   ImageLoader({
-    @required this.storage,
-    @required this.document,
-    @required this.pageNumber,
-    Key key,
+    required this.storage,
+    required this.document,
+    required this.pageNumber,
+    Key? key,
   }) : super(key: key);
 
-  final Map<int, PdfPageImage> storage;
-  final PdfDocument document;
+  final Map<int, PdfPageImage?> storage;
+  final PdfDocument? document;
   final int pageNumber;
 
   @override
   Widget build(BuildContext context) => FutureBuilder(
         future: _renderPage(),
-        builder: (context, AsyncSnapshot<PdfPageImage> snapshot) {
+        builder: (context, AsyncSnapshot<PdfPageImage?> snapshot) {
           if (snapshot.hasError) {
             return Center(
               child: Text('Error'),
@@ -120,16 +114,16 @@ class ImageLoader extends StatelessWidget {
           }
 
           return Image(
-            image: MemoryImage(snapshot.data.bytes),
+            image: MemoryImage(snapshot.data!.bytes),
           );
         },
       );
 
-  Future<PdfPageImage> _renderPage() async {
+  Future<PdfPageImage?> _renderPage() async {
     if (storage.containsKey(pageNumber)) {
       return storage[pageNumber];
     }
-    final page = await document.getPage(pageNumber);
+    final page = await document!.getPage(pageNumber);
     final pageImage = await page.render(
       width: page.width * 2,
       height: page.height * 2,
